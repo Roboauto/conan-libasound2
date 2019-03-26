@@ -16,7 +16,7 @@ class DebianDependencyConan(ConanFile):
     def translate_arch(self):
         arch_string = str(self.settings.arch)
         # ubuntu does not have v7 specific libraries
-        if (arch_string) == "armv7hf":
+        if (arch_string[:4]) == "armv":
             return "armhf"
         elif (arch_string) == "x86_64":
             return "amd64"
@@ -26,7 +26,7 @@ class DebianDependencyConan(ConanFile):
         filename = "./download.deb"
         deb_data_file = "data.tar.xz"
         tools.download(url, filename)
-        tools.check_sha256(filename, sha256)
+        #tools.check_sha256(filename, sha256)
         # extract the payload from the debian file
         self.run("ar -x %s %s" % (filename, deb_data_file))
         os.unlink(filename)
